@@ -53,8 +53,8 @@ def chopsticks(i, j, t):
         if len(moveList) == 0: raise ValueError("ERROR: No moves possible for hand {i}, {j}, {t}")
         
         for move in moveList:
-            newMain, newOpponent, newT = applyMove(move, i, j, t)
-            winPercent += chopsticks(newMain, newOpponent, newT)
+            leftHands, rightHands, newT = applyMove(move, i, j, t)
+            winPercent += chopsticks(leftHands, rightHands, newT)
         
         chopsticksArray[i][j][t] = winPercent/len(moveList)
         return chopsticksArray[i][j][t]
@@ -119,7 +119,18 @@ def applyMove(moveType, i, j, t):
     if opponentNewI > 5: opponentNewI = 5
     if opponentNewJ > 5: opponentNewJ = 5
 
-    return index((mainNewI, mainNewJ)), index((opponentNewI, opponentNewJ)), newT
+
+    #left hand is the left person
+    #right hand is the right person
+    leftHands = index((mainNewI, mainNewJ))
+    rightHands = index((opponentNewI, opponentNewJ))
+
+    if(t):
+        leftHands = index((opponentNewI, opponentNewJ))
+        rightHands = index((mainNewI, mainNewJ))
+
+    #always return consistantly
+    return leftHands, rightHands, newT
 
 #gets you the possible moves based on your hand, the opponents hand and whos turn its is.
 def getMoves(i,j,t):
