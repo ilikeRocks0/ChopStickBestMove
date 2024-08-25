@@ -215,42 +215,64 @@ def hand(i):
     raise ValueError("ERROR: HAND INPUTTED NUMBER GREATER THEN 15!!!")
 
 #does the inverse of the hand function
+#also does both ways so its easier on the other programs calling it
 def index(i):
     match i:
         case (1,1):
             return 0 
         case (2,1):
             return 1
+        case (1,2):
+            return 1
         case (3,1):
+            return 2
+        case (1,3):
             return 2
         case (4,1):
             return 3
+        case (1,4):
+            return 3
         case (5,1):
+            return 4
+        case (1,5):
             return 4
         case (2,2):
             return 5
         case (3,2):
             return 6
+        case (2,3):
+            return 6
         case (4,2):
             return 7
+        case (2,4):
+            return 7
         case (5,2):
+            return 8
+        case (2,5):
             return 8
         case (3,3):
             return 9
         case (4,3):
             return 10
+        case (3,4):
+            return 10
         case (5,3):
+            return 11
+        case (3,5):
             return 11
         case (4,4):
             return 12
         case (5,4):
             return 13
+        case (4,5):
+            return 13
         case (5,5):
             return 14
+    raise ValueError("ERROR: INDEX INPUTTED NUMBER GREATER THEN 15!!!")
+
 def main():
     #starting at base hand
     chopsticks(0,0,0)
-
 
 if __name__ == "__main__":
     main()
