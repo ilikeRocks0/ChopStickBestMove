@@ -25,24 +25,29 @@ class Moves(Enum):
 #if turn is 1 then its right person
 def chopsticks(i, j, t):
     #keep track of the function call to stop it from reaching an infinite loop 
+    
     stack.append((i,j,t))
 
 
     # if we have the value then return it
     if(chopsticksArray[i][j][t]):
+        stack.pop()
         return chopsticksArray[i][j][t]
     
     #if the left person hand is dead then right person 100% wins 
     elif(hand(i) == (5,5)):
+        stack.pop()
         return -1
     
     #if the right person hand is dead then left person 100% wins
     elif(hand(j) == (5,5)):
+        stack.pop()
         return 1
     
     #if we already made this function call before and its not the one we just added that means we have ran into a loop
     #so return 0 meaning its a draw to keep going down this path
     elif((i,j,t) in stack and stack.index((i,j,t)) != len(stack) - 1):
+        stack.pop()
         return 0
     
     #if they neither hand is dead we need to calculate the winrate of the next possible hands
@@ -57,8 +62,8 @@ def chopsticks(i, j, t):
             winPercent += chopsticks(leftHands, rightHands, newT)
         
         chopsticksArray[i][j][t] = winPercent/len(moveList)
-        return chopsticksArray[i][j][t]
-
+    stack.pop()
+    return chopsticksArray[i][j][t]
 
 def applyMove(moveType, i, j, t):
     #find the new I, J based on the move
@@ -273,6 +278,7 @@ def index(i):
 def main():
     #starting at base hand
     chopsticks(0,0,0)
+    print(chopsticksArray)
 
 if __name__ == "__main__":
     main()
