@@ -132,26 +132,26 @@ def getMoves(i,j,t):
     opponentI, opponentJ, = hand(opponentHand)
 
     #if our I hand is in play
-    if mainI <= 5:
+    if mainI < 5:
         #and our opponents I hand is in play 
-        if opponentI <= 5:
+        if opponentI < 5:
             #we can attack it
             moveList.append(Moves.I_ATTACK_I)
 
         #and our opponents J hand is in play
-        if opponentJ <= 5:
+        if opponentJ < 5:
             #we can attack it
             moveList.append(Moves.I_ATTACK_J)
 
     #if our J hand is in play
-    if mainJ <= 5:
+    if mainJ < 5:
         #and our opponents I hand is in play 
-        if opponentI <= 5:
+        if opponentI < 5:
             #we can attack it
             moveList.append(Moves.J_ATTACK_I)
 
         #and our opponents J hand is in play
-        if opponentJ <= 5:
+        if opponentJ < 5:
             #we can attack it
             moveList.append(Moves.J_ATTACK_J)
         
