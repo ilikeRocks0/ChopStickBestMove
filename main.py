@@ -71,8 +71,8 @@ def applyMove(moveType, i, j, t):
 
     #determine whos turn it is
     if (t): 
-        mainHand = i
-        opponentHand = j
+        mainHand = j
+        opponentHand = i
         #if its right turn the next turn is left turn
         newT = LEFT_TURN
 
@@ -118,7 +118,7 @@ def applyMove(moveType, i, j, t):
     if mainNewJ > 5: mainNewJ = 5
     if opponentNewI > 5: opponentNewI = 5
     if opponentNewJ > 5: opponentNewJ = 5
-    
+
     return index((mainNewI, mainNewJ)), index((opponentNewI, opponentNewJ)), newT
 
 #gets you the possible moves based on your hand, the opponents hand and whos turn its is.
@@ -129,8 +129,8 @@ def getMoves(i,j,t):
 
     #determine whos turn it is
     if (t): 
-        mainHand = i
-        opponentHand = j
+        mainHand = j
+        opponentHand = i
 
     mainI, mainJ, = hand(mainHand)
     opponentI, opponentJ, = hand(opponentHand)
