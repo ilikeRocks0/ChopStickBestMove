@@ -27,9 +27,6 @@ def chopsticks(i, j, t):
     #keep track of the function call to stop it from reaching an infinite loop 
     stack.append((i,j,t))
 
-    #anything equal or above 5 is a dead hand so just set it to 5
-    if i > 5: i = 5
-    if j > 5: j = 5
 
     # if we have the value then return it
     if(chopsticksArray[i][j][t]):
@@ -114,6 +111,13 @@ def applyMove(moveType, i, j, t):
                 else: 
                     raise ValueError("ERROR: Trying to apply move SPLIT but hand I is not splittable!!!")
             else: raise ValueError("ERROR: Neither hand could be SPLIT!!!")
+    
+    
+    #anything equal or above 5 is a dead hand so just set it to 5
+    if mainNewI > 5: mainNewI = 5
+    if mainNewJ > 5: mainNewJ = 5
+    if opponentNewI > 5: opponentNewI = 5
+    if opponentNewJ > 5: opponentNewJ = 5
     
     return index((mainNewI, mainNewJ)), index((opponentNewI, opponentNewJ)), newT
 
