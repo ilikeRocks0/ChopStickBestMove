@@ -1,12 +1,13 @@
 import numpy as np
 from enum import Enum, auto
-
+import csv
 
 #Left person is denoted as I and they are positive 1
 #Right person is denoted as J and they are negative 1
 #turn is denoted as T 0 is Left and 1 is Right
+#anyvalue in the table is the percent chance that left hand will win
 
-chopsticksArray = np.full((15,15,2), None, dtype=object)
+chopsticksArray = np.full((15,15,2), -1, dtype=object)
 stack = []
 LEFT_TURN = 0
 RIGHT_TURN = 1
@@ -30,7 +31,7 @@ def chopsticks(i, j, t):
 
 
     # if we have the value then return it
-    if(chopsticksArray[i][j][t]):
+    if(chopsticksArray[i][j][t] != -1):
         stack.pop()
         return chopsticksArray[i][j][t]
     
@@ -278,8 +279,28 @@ def index(i):
 def main():
     #starting at base hand
     chopsticks(0,0,0)
-    print(chopsticksArray)
+    print(chopsticksArray[0][0][0])
+    print(chopsticksArray[0][1][0])
+    print(chopsticksArray[0][2][0])
+    # Replace None with a placeholder (e.g., np.nan)
+    array = chopsticksArray
+    # array = np.where(array == None, np.nan, array)
 
+    # Write the first slice (t = 0) to a CSV file
+    with open('slice_t0.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['t=0'])  # Optional header
+        for row in array[:, :, 0]:
+            writer.writerow(row)
+
+    # Write the second slice (t = 1) to another CSV file
+    with open('slice_t1.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['t=1'])  # Optional header
+        for row in array[:, :, 1]:
+            writer.writerow(row)
+
+print("Slices saved to 'slice_t0.csv' and 'slice_t1.csv'")
 if __name__ == "__main__":
     main()
     
