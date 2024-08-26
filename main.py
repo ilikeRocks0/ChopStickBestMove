@@ -37,7 +37,7 @@ def chopsticks(i, j, t):
     #if the left person hand is dead then right person 100% wins 
     elif(hand(i) == (5,5)):
         stack.pop()
-        return -1
+        return 0
     
     #if the right person hand is dead then left person 100% wins
     elif(hand(j) == (5,5)):
@@ -48,7 +48,7 @@ def chopsticks(i, j, t):
     #so return 0 meaning its a draw to keep going down this path
     elif((i,j,t) in stack and stack.index((i,j,t)) != len(stack) - 1):
         stack.pop()
-        return 0
+        return 0.5
     
     #if they neither hand is dead we need to calculate the winrate of the next possible hands
     else:
