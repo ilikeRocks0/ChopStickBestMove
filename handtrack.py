@@ -3,18 +3,15 @@ import mediapipe as mp
 
 # Initialize MediaPipe Hand module
 mp_hands = mp.solutions.hands
-hands = mp_hands.Hands(max_num_hands=1)  # Detect only one hand
+hands = mp_hands.Hands(max_num_hands=4)  # Allow tracking up to 4 hands
 mp_drawing = mp.solutions.drawing_utils
 
 def count_fingers(hand_landmarks):
     """
-    Function to count the number of fingers held up.
+    Function to count the number of fingers held up (excluding thumb).
     :param hand_landmarks: Detected hand landmarks.
-    :return: Number of fingers held up.
+    :return: Number of fingers held up (excluding thumb).
     """
-    # Thumb
-    thumb_is_open = hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP].x < hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_IP].x
-    
     # Fingers
     fingers = [
         hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].y < hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_PIP].y,
@@ -25,10 +22,6 @@ def count_fingers(hand_landmarks):
     
     # Count the number of fingers that are held up
     count = fingers.count(True)
-    
-    # Add the thumb if it's open
-    if thumb_is_open:
-        count += 1
     
     return count
 
@@ -51,10 +44,10 @@ while cap.isOpened():
 
     # Draw hand landmarks and count fingers
     if result.multi_hand_landmarks:
-        for hand_landmarks in result.multi_hand_landmarks:
+        for idx, hand_landmarks in enumerate(result.multi_hand_landmarks):
             mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
             fingers_up = count_fingers(hand_landmarks)
-            cv2.putText(frame, f'Fingers: {fingers_up}', (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+            cv2.putText(frame, f'Hand {idx+1} Fingers: {fingers_up}', (50, 50 + idx * 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
 
     # Display the frame
     cv2.imshow('Hand Tracking', frame)
