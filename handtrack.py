@@ -49,24 +49,36 @@ while cap.isOpened():
     left_result = hands.process(left_rgb)
     right_result = hands.process(right_rgb)
 
-    # Draw hand landmarks and count fingers on the left side
+    # Initialize finger count displays
+    left_finger_counts = []
+    right_finger_counts = []
+
+    # Process the left side
     if left_result.multi_hand_landmarks:
         for idx, hand_landmarks in enumerate(left_result.multi_hand_landmarks):
             mp_drawing.draw_landmarks(left_side, hand_landmarks, mp_hands.HAND_CONNECTIONS)
             fingers_up = count_fingers(hand_landmarks)
-            cv2.putText(left_side, f'Team 1 - Hand {idx+1}: {fingers_up}', (10, 50 + idx * 50), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+            left_finger_counts.append(f"Hand {idx+1}: {fingers_up} Fingers")
 
-    # Draw hand landmarks and count fingers on the right side
+    # Process the right side
     if right_result.multi_hand_landmarks:
         for idx, hand_landmarks in enumerate(right_result.multi_hand_landmarks):
             mp_drawing.draw_landmarks(right_side, hand_landmarks, mp_hands.HAND_CONNECTIONS)
             fingers_up = count_fingers(hand_landmarks)
-            cv2.putText(right_side, f'Team 2 - Hand {idx+1}: {fingers_up}', (10, 50 + idx * 50), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+            right_finger_counts.append(f"Hand {idx+1}: {fingers_up} Fingers")
 
     # Combine the two sides back into a single frame
     combined_frame = cv2.hconcat([left_side, right_side])
+
+    # Display labels on the left side
+    for i, text in enumerate(left_finger_counts):
+        cv2.putText(combined_frame, text, (10, 50 + i * 50), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+
+    # Display labels on the right side
+    for i, text in enumerate(right_finger_counts):
+        cv2.putText(combined_frame, text, (width//2 + 10, 50 + i * 50), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
 
     # Display the frame
     cv2.imshow('Hand Tracking - Team 1 (Left) vs Team 2 (Right)', combined_frame)
