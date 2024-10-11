@@ -7,8 +7,7 @@ There is two percent sides because it depends on whos turn it is.
 
 To quit the program do CTRL+C
 
-[!alt_text](https://github.com//ilikeRocks0/ChopStickBestMove/blob/master/Hand_Example.png?raw=true
- "image of how it looks")
+![ScreenShot](Hand_Example.png)
 
 # # how to run
 
